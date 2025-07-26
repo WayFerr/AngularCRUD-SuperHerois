@@ -43,5 +43,11 @@ namespace SuperHeroisApi.Infra.Repositorios
         {
             return await _context.Herois.AsNoTracking().FirstOrDefaultAsync(x => x.NomeHeroi == nomeHeroi, cancellationToken);
         }
+
+        public async Task Update(Herois heroi, CancellationToken cancellationToken)
+        {
+            _context.Herois.Update(heroi);
+            await _context.SaveChangesAsync(cancellationToken);
+        }
     }
 }

@@ -36,10 +36,22 @@ namespace SuperHeroisApi.Application.Services
 
         public async Task<HeroiResponse> Cadastro(HeroiRequest request, CancellationToken cancellationToken)
         {
-            var verificaNomeDeHeroi = await _heroiRepository.ObterPorNomeDeHeroi(request.NomeHeroi, cancellationToken);
-            if(verificaNomeDeHeroi is not null) throw new InvalidOperationException("Já existe um herói com esse nome de herói.");
+            var verificaExistencia = await _heroiRepository.ObterPorNomeDeHeroi(request.NomeHeroi, cancellationToken);
+            if(verificaExistencia is not null) throw new InvalidOperationException("Já existe um herói com esse nome de herói.");
 
             var heroi = await _heroiRepository.Cadastro(request.ToEntity(), cancellationToken);
+
+            return heroi.ToResponseModel();
+        }
+
+        public async Task<HeroiResponse> Update(int id, HeroiRequest request, CancellationToken cancellationToken)
+        {
+            var heroi = await _heroiRepository.ObterPorId(id, cancellationToken);
+            if (heroi is null) return null;
+
+            heroi = request.ToEntity(id);
+
+            await _heroiRepository.Update(heroi, cancellationToken);
 
             return heroi.ToResponseModel();
         }

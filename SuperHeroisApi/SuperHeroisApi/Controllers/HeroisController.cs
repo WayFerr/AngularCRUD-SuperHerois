@@ -18,10 +18,10 @@ namespace SuperHeroisApi.Controllers
         [HttpGet("{id}", Name = "ObterHeroiPorId")]
         public async Task<IActionResult> ObterPorId([FromRoute] int id, CancellationToken cancellationToken)
         {
-                var heroi = await _heroiService.ObterPorId(id, cancellationToken);
-                if (heroi is null) return NotFound("Herói não encontrado");
+            var heroi = await _heroiService.ObterPorId(id, cancellationToken);
+            if (heroi is null) return NotFound("Herói não encontrado");
 
-                return Ok(heroi);
+            return Ok(heroi);
         }
 
         [HttpGet]
@@ -41,6 +41,15 @@ namespace SuperHeroisApi.Controllers
             var heroi = await _heroiService.Cadastro(request, cancellationToken);
 
             return new CreatedAtRouteResult("ObterHeroiPorId", new { id = heroi.Id }, heroi);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] HeroiRequest request, CancellationToken cancellationToken)
+        {
+            var heroi = await _heroiService.Update(id, request, cancellationToken);
+            if (heroi is null) return NotFound("Herói não encontrado");
+
+            return Ok(heroi);
         }
     }
 }

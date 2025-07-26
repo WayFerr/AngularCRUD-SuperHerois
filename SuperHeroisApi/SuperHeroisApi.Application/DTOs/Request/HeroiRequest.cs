@@ -31,10 +31,11 @@ namespace SuperHeroisApi.Application.DTOs.Request
 
     public static class HeroiRequestExtension
     {
-        public static Herois ToEntity(this HeroiRequest heroi)
+        public static Herois ToEntity(this HeroiRequest heroi, int id = 0)
         {
             return new Herois
             {
+                Id = id,
                 Nome = heroi.Nome,
                 NomeHeroi = heroi.NomeHeroi,
                 DataNascimento = heroi.DataNascimento.Value,
