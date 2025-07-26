@@ -55,5 +55,15 @@ namespace SuperHeroisApi.Application.Services
 
             return heroi.ToResponseModel();
         }
+
+        public async Task<HeroiResponse> Delete(int id, CancellationToken cancellationToken)
+        {
+            var heroi = await _heroiRepository.ObterPorId(id, cancellationToken);
+            if (heroi is null) return null;
+
+            await _heroiRepository.Delete(heroi, cancellationToken);
+
+            return heroi.ToResponseModel();
+        }
     }
 }

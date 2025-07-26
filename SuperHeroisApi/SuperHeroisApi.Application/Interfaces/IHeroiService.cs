@@ -14,5 +14,6 @@ namespace SuperHeroisApi.Application.Interfaces
         Task<List<HeroiResponse>> ObterTodos(CancellationToken cancellationToken);
         Task<HeroiResponse> Cadastro(HeroiRequest request, CancellationToken cancellationToken);
         Task<HeroiResponse> Update(int id, HeroiRequest request, CancellationToken cancellationToken);
+        Task<HeroiResponse> Delete(int id, CancellationToken cancellationToken);
     }
 }

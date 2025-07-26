@@ -51,5 +51,14 @@ namespace SuperHeroisApi.Controllers
 
             return Ok(heroi);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id, CancellationToken cancellationToken)
+        {
+            var heroi = await _heroiService.Delete(id, cancellationToken);
+            if (heroi is null) return NotFound("Herói não encontrado");
+
+            return NoContent();
+        }
     }
 }

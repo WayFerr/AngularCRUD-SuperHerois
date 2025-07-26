@@ -49,5 +49,11 @@ namespace SuperHeroisApi.Infra.Repositorios
             _context.Herois.Update(heroi);
             await _context.SaveChangesAsync(cancellationToken);
         }
+
+        public async Task Delete(Herois heroi, CancellationToken cancellationToken)
+        {
+            _context.Herois.Remove(heroi);
+            await _context.SaveChangesAsync(cancellationToken);
+        }
     }
 }
