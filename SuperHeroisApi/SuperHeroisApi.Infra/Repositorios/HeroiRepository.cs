@@ -16,7 +16,7 @@ namespace SuperHeroisApi.Infra.Repositorios
         public HeroiRepository(SuperHeroisApiContext context)
         {
             _context = context;
-        }
+        }        
 
         public async Task<Herois> ObterPorId(int id, CancellationToken cancellationToken)
         {
@@ -29,6 +29,19 @@ namespace SuperHeroisApi.Infra.Repositorios
                 .ThenInclude(s => s.Superpoder).ToListAsync(cancellationToken);
 
             return herois;
+        }
+
+        public async Task<Herois> Cadastro(Herois heroi, CancellationToken cancellationToken)
+        {
+            await _context.Herois.AddAsync(heroi, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return heroi;
+        }
+
+        public async Task<Herois> ObterPorNomeDeHeroi(string nomeHeroi, CancellationToken cancellationToken)
+        {
+            return await _context.Herois.AsNoTracking().FirstOrDefaultAsync(x => x.NomeHeroi == nomeHeroi, cancellationToken);
         }
     }
 }

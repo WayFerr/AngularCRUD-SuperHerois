@@ -11,5 +11,7 @@ namespace SuperHeroisApi.Domain.Interfaces
     {
         Task<Herois> ObterPorId(int id, CancellationToken cancellationToken);
         Task<List<Herois>> ObterTodos(CancellationToken cancellationToken);
+        Task<Herois> Cadastro(Herois heroi, CancellationToken cancellationToken);
+        Task<Herois> ObterPorNomeDeHeroi(string nomeHeroi, CancellationToken cancellationToken);
     }
 }

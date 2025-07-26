@@ -1,4 +1,5 @@
-﻿using SuperHeroisApi.Application.DTOs.Response;
+﻿using SuperHeroisApi.Application.DTOs.Request;
+using SuperHeroisApi.Application.DTOs.Response;
 using SuperHeroisApi.Application.Interfaces;
 using SuperHeroisApi.Domain.Interfaces;
 using System;
@@ -16,7 +17,7 @@ namespace SuperHeroisApi.Application.Services
         public HeroiService(IHeroiRepository heroiRepository)
         {
             _heroiRepository = heroiRepository;
-        }
+        }        
 
         public async Task<HeroiResponse> ObterPorId(int id, CancellationToken cancellationToken)
         {
@@ -31,6 +32,16 @@ namespace SuperHeroisApi.Application.Services
             var herois = await _heroiRepository.ObterTodos(cancellationToken);
 
             return herois.ToResponseModel();
+        }
+
+        public async Task<HeroiResponse> Cadastro(HeroiRequest request, CancellationToken cancellationToken)
+        {
+            var verificaNomeDeHeroi = await _heroiRepository.ObterPorNomeDeHeroi(request.NomeHeroi, cancellationToken);
+            if(verificaNomeDeHeroi is not null) throw new InvalidOperationException("Já existe um herói com esse nome de herói.");
+
+            var heroi = await _heroiRepository.Cadastro(request.ToEntity(), cancellationToken);
+
+            return heroi.ToResponseModel();
         }
     }
 }

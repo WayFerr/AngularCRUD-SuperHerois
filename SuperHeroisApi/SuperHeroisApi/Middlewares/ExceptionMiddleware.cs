@@ -31,7 +31,8 @@ namespace SuperHeroisApi.Middlewares
                 {
                     StatusCode = context.Response.StatusCode,
                     Message = "Ocorreu um erro interno no servidor.",
-                    Detailed = ex.Message
+                    Detailed = ex.Message,
+                    InnerException = ex?.InnerException?.Message
                 };
 
                 await context.Response.WriteAsync(JsonSerializer.Serialize(response));

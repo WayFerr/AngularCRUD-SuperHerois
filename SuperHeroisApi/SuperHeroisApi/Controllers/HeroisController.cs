@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using SuperHeroisApi.Application.DTOs.Request;
 using SuperHeroisApi.Application.Interfaces;
 
 namespace SuperHeroisApi.Controllers
@@ -30,6 +30,17 @@ namespace SuperHeroisApi.Controllers
             var herois = await _heroiService.ObterTodos(cancellationToken);
 
             return Ok(herois);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Cadastro([FromBody] HeroiRequest request, CancellationToken cancellationToken)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var heroi = await _heroiService.Cadastro(request, cancellationToken);
+
+            return new CreatedAtRouteResult("ObterHeroiPorId", new { id = heroi.Id }, heroi);
         }
     }
 }

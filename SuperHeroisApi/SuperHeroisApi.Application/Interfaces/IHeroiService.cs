@@ -1,4 +1,5 @@
-﻿using SuperHeroisApi.Application.DTOs.Response;
+﻿using SuperHeroisApi.Application.DTOs.Request;
+using SuperHeroisApi.Application.DTOs.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace SuperHeroisApi.Application.Interfaces
     {
         Task<HeroiResponse> ObterPorId(int id, CancellationToken cancellationToken);
         Task<List<HeroiResponse>> ObterTodos(CancellationToken cancellationToken);
+        Task<HeroiResponse> Cadastro(HeroiRequest request, CancellationToken cancellationToken);
     }
 }
