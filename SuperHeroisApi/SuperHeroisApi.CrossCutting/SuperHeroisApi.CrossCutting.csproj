@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SuperHeroisApi.Application\SuperHeroisApi.Application.csproj" />
     <ProjectReference Include="..\SuperHeroisApi.Infra\SuperHeroisApi.Infra.csproj" />
   </ItemGroup>
 

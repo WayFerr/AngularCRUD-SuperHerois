@@ -1,0 +1,15 @@
+﻿using SuperHeroisApi.Application.DTOs.Response;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SuperHeroisApi.Application.Interfaces
+{
+    public interface IHeroiService
+    {
+        Task<HeroiResponse> ObterPorId(int id, CancellationToken cancellationToken);
+        Task<List<HeroiResponse>> ObterTodos(CancellationToken cancellationToken);
+    }
+}
