@@ -37,12 +37,27 @@ namespace SuperHeroisApi.Application.Services
 
         public async Task<HeroiResponse> Cadastro(HeroiRequest request, CancellationToken cancellationToken)
         {
-            var verificaExistencia = await _heroiRepository.ObterPorNomeDeHeroi(request.NomeHeroi, cancellationToken);
-            if(verificaExistencia is not null) throw new InvalidOperationException("Já existe um herói com esse nome de herói.");
+            using var transaction = await _heroiRepository.AbrirTransactionAsync();
 
-            var heroi = await _heroiRepository.Cadastro(request.ToEntity(), cancellationToken);
+            try
+            {
+                var verificaExistencia = await _heroiRepository.ObterPorNomeDeHeroi(request.NomeHeroi, cancellationToken);
+                if (verificaExistencia is not null) throw new InvalidOperationException("Já existe um herói com esse nome de herói.");
 
-            return heroi.ToResponseModel();
+                var heroi = await _heroiRepository.Cadastro(request.ToEntity(), cancellationToken);
+
+                var heroisSuperpoderes = request.SuperpoderIds.Select(spId => new HeroisSuperpoderes { HeroiId = heroi.Id, SuperpoderId = spId }).ToList();
+
+                await _heroiRepository.InserirHeroisSuperpoderes(heroisSuperpoderes, cancellationToken);
+
+                await transaction.CommitAsync();
+                return heroi.ToResponseModel();
+            }
+            catch (Exception)
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }            
         }
 
         public async Task<HeroiResponse> Update(int id, HeroiRequest request, CancellationToken cancellationToken)

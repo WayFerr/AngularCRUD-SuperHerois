@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using SuperHeroisApi.Domain.Entidades;
 using SuperHeroisApi.Domain.Interfaces;
 using System;
@@ -20,6 +21,7 @@ namespace SuperHeroisApi.Infra.Repositorios
 
         public async Task<Herois> ObterPorId(int id, CancellationToken cancellationToken)
         {
+            
             return await _context.Herois.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
 
@@ -67,5 +69,18 @@ namespace SuperHeroisApi.Infra.Repositorios
         {
             return await _context.Herois.Include(h => h.HeroisSuperpoderes).FirstOrDefaultAsync(h => h.Id == id, cancellationToken);
         }
+
+        public async Task InserirHeroisSuperpoderes(List<HeroisSuperpoderes> heroisSuperpoderes, CancellationToken cancellationToken)
+        {
+            await _context.HeroisSuperpoderes.AddRangeAsync(heroisSuperpoderes, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<IDbContextTransaction> AbrirTransactionAsync()
+        {
+            return await _context.Database.BeginTransactionAsync();
+        }
+
+        
     }
 }

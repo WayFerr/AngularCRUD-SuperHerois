@@ -1,4 +1,5 @@
-﻿using SuperHeroisApi.Domain.Entidades;
+﻿using Microsoft.EntityFrameworkCore.Storage;
+using SuperHeroisApi.Domain.Entidades;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,5 +18,7 @@ namespace SuperHeroisApi.Domain.Interfaces
         Task Update(Herois heroi, CancellationToken cancellationToken);
         Task Delete(Herois heroi, CancellationToken cancellationToken);
         Task<Herois?> ObterPorIdComSuperpoderes(int id, CancellationToken cancellationToken);
+        Task InserirHeroisSuperpoderes(List<HeroisSuperpoderes> heroisSuperpoderes, CancellationToken cancellationToken);
+        Task<IDbContextTransaction> AbrirTransactionAsync();
     }
 }
