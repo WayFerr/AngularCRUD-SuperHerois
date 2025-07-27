@@ -15,6 +15,14 @@ namespace SuperHeroisApi.Application.DTOs.Response
         public DateTime DataNascimento { get; set; }
         public double Altura { get; set; }
         public double Peso { get; set; }
+        public List<HeroiSuperpoderViewModel> Superpoderes { get; set; }
+    }
+
+    public class HeroiSuperpoderViewModel
+    {
+        public int Id { get; set; }
+        public string Superpoder { get; set; }
+        public string Descricao { get; set; }
     }
 
     public static class HeroiResponseExtension
@@ -41,7 +49,13 @@ namespace SuperHeroisApi.Application.DTOs.Response
                 NomeHeroi = heroi.NomeHeroi,
                 DataNascimento = heroi.DataNascimento,
                 Altura = heroi.Altura,
-                Peso = heroi.Peso
+                Peso = heroi.Peso,
+                Superpoderes = heroi.HeroisSuperpoderes.Select(x =>  new HeroiSuperpoderViewModel
+                {
+                    Id = x.Superpoder.Id,
+                    Superpoder = x.Superpoder.Superpoder,
+                    Descricao = x.Superpoder.Descricao
+                }).ToList()
             }).ToList();
         }
     }

@@ -32,6 +32,14 @@ namespace SuperHeroisApi.Controllers
             return Ok(herois);
         }
 
+        [HttpGet("Superpoderes")]
+        public async Task<IActionResult> ObterTodosSuperpoderes(CancellationToken cancellationToken)
+        {
+            var superpoderes = await _heroiService.ObterTodosSuperpoderes(cancellationToken);
+
+            return Ok(superpoderes);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Cadastro([FromBody] HeroiRequest request, CancellationToken cancellationToken)
         {

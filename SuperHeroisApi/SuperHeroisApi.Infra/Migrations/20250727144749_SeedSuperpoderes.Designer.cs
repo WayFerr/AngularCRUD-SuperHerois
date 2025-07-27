@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SuperHeroisApi.Infra;
 
@@ -11,9 +12,11 @@ using SuperHeroisApi.Infra;
 namespace SuperHeroisApi.Infra.Migrations
 {
     [DbContext(typeof(SuperHeroisApiContext))]
-    partial class SuperHeroisApiContextModelSnapshot : ModelSnapshot
+    [Migration("20250727144749_SeedSuperpoderes")]
+    partial class SeedSuperpoderes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

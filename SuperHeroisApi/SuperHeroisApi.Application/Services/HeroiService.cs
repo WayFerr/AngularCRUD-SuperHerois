@@ -1,6 +1,7 @@
 ﻿using SuperHeroisApi.Application.DTOs.Request;
 using SuperHeroisApi.Application.DTOs.Response;
 using SuperHeroisApi.Application.Interfaces;
+using SuperHeroisApi.Domain.Entidades;
 using SuperHeroisApi.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -46,10 +47,39 @@ namespace SuperHeroisApi.Application.Services
 
         public async Task<HeroiResponse> Update(int id, HeroiRequest request, CancellationToken cancellationToken)
         {
-            var heroi = await _heroiRepository.ObterPorId(id, cancellationToken);
+            var heroi = await _heroiRepository.ObterPorIdComSuperpoderes(id, cancellationToken);
             if (heroi is null) return null;
 
-            heroi = request.ToEntity(id);
+            heroi.Nome = request.Nome;
+            heroi.NomeHeroi = request.NomeHeroi;
+            heroi.DataNascimento = request.DataNascimento.Value;
+            heroi.Altura = request.Altura.Value;
+            heroi.Peso = request.Peso.Value;
+
+            var poderesAtuais = heroi.HeroisSuperpoderes.Select(hs => hs.SuperpoderId).ToList();
+            var novosPoderes = request.SuperpoderIds ?? new List<int>();
+
+            var poderesParaAdicionar = novosPoderes.Except(poderesAtuais).ToList();
+            foreach (var spId in poderesParaAdicionar)
+            {
+                heroi.HeroisSuperpoderes.Add(new HeroisSuperpoderes
+                {
+                    HeroiId = id,
+                    SuperpoderId = spId
+                });
+            }
+
+            var poderesParaRemover = poderesAtuais.Except(novosPoderes).ToList();
+            var superpoderesParaRemover = heroi.HeroisSuperpoderes
+                .Where(hs => poderesParaRemover.Contains(hs.SuperpoderId))
+                .ToList();
+
+            foreach (var sp in superpoderesParaRemover)
+            {
+                heroi.HeroisSuperpoderes.Remove(sp);
+            }
+
+            //heroi = request.ToEntity(id);
 
             await _heroiRepository.Update(heroi, cancellationToken);
 
@@ -64,6 +94,13 @@ namespace SuperHeroisApi.Application.Services
             await _heroiRepository.Delete(heroi, cancellationToken);
 
             return heroi.ToResponseModel();
+        }
+
+        public async Task<List<SuperpoderResponse>> ObterTodosSuperpoderes(CancellationToken cancellationToken)
+        {
+            var superpoderes = await _heroiRepository.ObterTodosSuperpoderes(cancellationToken);
+
+            return superpoderes.ToResponseModel();
         }
     }
 }

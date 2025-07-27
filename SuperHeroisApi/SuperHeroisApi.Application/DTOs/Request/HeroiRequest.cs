@@ -27,6 +27,7 @@ namespace SuperHeroisApi.Application.DTOs.Request
 
         [Required(ErrorMessage = "Peso é obrigatório", AllowEmptyStrings = false)]
         public double? Peso { get; set; }
+        public List<int>? SuperpoderIds { get; set; }
     }
 
     public static class HeroiRequestExtension

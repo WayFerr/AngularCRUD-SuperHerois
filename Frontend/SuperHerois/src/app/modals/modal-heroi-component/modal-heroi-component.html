@@ -1,0 +1,133 @@
+<div class="modal-overlay">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h2 class="modal-title">
+        <span class="modal-icon">{{ modalType === 'create' ? '➕' : '✏️' }}</span>
+        {{ chaveTituloModal }}
+      </h2>
+      <button class="close-btn" (click)="fecharModal()" title="Fechar">
+        <span>✕</span>
+      </button>
+    </div>
+
+    <form class="modal-body" (ngSubmit)="onSubmit()">
+      <div class="form-grid">
+        <!-- Nome Real -->
+        <div class="form-group">
+          <label for="nome" class="form-label">Nome Real *</label>
+          <input
+            type="text"
+            id="nome"
+            name="nome"
+            [(ngModel)]="formData.nome"
+            class="form-input"
+            [class.error]="errors['nome']"
+            placeholder="Ex: Bruce Wayne"
+            maxlength="120"
+          />
+          <span class="error-message" *ngIf="errors['nome']">{{ errors['nome'] }}</span>
+        </div>
+
+        <!-- Nome do Herói -->
+        <div class="form-group">
+          <label for="nomeHeroi" class="form-label">Nome do Herói *</label>
+          <input
+            type="text"
+            id="nomeHeroi"
+            name="nomeHeroi"
+            [(ngModel)]="formData.nomeHeroi"
+            class="form-input"
+            [class.error]="errors['nomeHeroi']"
+            placeholder="Ex: Batman"
+            maxlength="120"
+          />
+          <span class="error-message" *ngIf="errors['nomeHeroi']">{{ errors['nomeHeroi'] }}</span>
+        </div>
+
+        <!-- Data de Nascimento -->
+        <div class="form-group">
+          <label for="dataNascimento" class="form-label">Data de Nascimento *</label>
+          <input
+            type="date"
+            id="dataNascimento"
+            name="dataNascimento"
+            [(ngModel)]="formData.dataNascimento"
+            class="form-input"
+            [class.error]="errors['dataNascimento']"
+          />
+          <span class="error-message" *ngIf="errors['dataNascimento']">{{ errors['dataNascimento'] }}</span>
+        </div>
+
+        <!-- Altura -->
+        <div class="form-group">
+          <label for="altura" class="form-label">Altura (m) *</label>
+          <input
+            type="number"
+            id="altura"
+            name="altura"
+            [(ngModel)]="formData.altura"
+            class="form-input"
+            [class.error]="errors['altura']"
+            placeholder="Ex: 1.88"
+            step="0.01"
+            min="0"
+          />
+          <span class="error-message" *ngIf="errors['altura']">{{ errors['altura'] }}</span>
+        </div>
+
+        <!-- Peso -->
+        <div class="form-group">
+          <label for="peso" class="form-label">Peso (kg) *</label>
+          <input
+            type="number"
+            id="peso"
+            name="peso"
+            [(ngModel)]="formData.peso"
+            class="form-input"
+            [class.error]="errors['peso']"
+            placeholder="Ex: 95"
+            step="0.1"
+            min="0"
+          />
+          <span class="error-message" *ngIf="errors['peso']">{{ errors['peso'] }}</span>
+        </div>
+      </div>
+
+      <!-- Superpoderes -->
+      <div class="form-group superpoderes-section">
+        <label class="form-label">Superpoderes *</label>
+        <div class="superpoderes-grid">
+          <div
+            class="superpoder-item"
+            *ngFor="let superpoder of superpoderes"
+          >
+            <label class="checkbox-label">
+              <input
+                type="checkbox"
+                [checked]="isSuperpoderSelected(superpoder.id)"
+                (change)="onSuperpoderChange(superpoder.id, $event)"
+                class="checkbox-input"
+              />
+              <span class="checkbox-custom"></span>
+              <div class="superpoder-info">
+                <span class="superpoder-nome">{{ superpoder.superpoder }}</span>
+                <span class="superpoder-descricao">{{ superpoder.descricao }}</span>
+              </div>
+            </label>
+          </div>
+        </div>
+        <span class="error-message" *ngIf="errors['superpoderes']">{{ errors['superpoderes'] }}</span>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="fecharModal()">
+          Cancelar
+        </button>
+        <button type="submit" class="btn btn-primary">
+          <span class="btn-icon">{{ modalType === 'create' ? '➕' : '💾' }}</span>
+          {{ submitButtonText }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

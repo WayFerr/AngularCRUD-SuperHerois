@@ -1,0 +1,25 @@
+<div class="modal-header">
+  <h2 class="modal-title">
+    <span class="modal-icon">⚠️</span>
+    Confirmar Exclusão
+  </h2>
+  <button class="close-btn" (click)="fechar()" title="Fechar">
+    <span>✕</span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <p class="warning-text">
+    Tem certeza que deseja excluir este herói?
+    <strong>Esta ação não pode ser desfeita.</strong>
+  </p>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="fechar()">
+      Cancelar
+    </button>
+    <button type="button" class="btn btn-danger" (click)="confirmarExclusao()">
+      Sim, Excluir
+    </button>
+  </div>
+</div>

@@ -20,6 +20,14 @@ namespace SuperHeroisApi.Infra.ConfiguracoesTabelas
 
             builder.Property(x => x.Descricao).IsRequired()
                 .HasMaxLength(250);
+
+            builder.HasData(
+                new Superpoderes { Id = 1, Superpoder = "Força Sobre-Humana", Descricao = "Capacidade de exercer força física muito além dos limites humanos." },
+                new Superpoderes { Id = 2, Superpoder = "Voo", Descricao = "Habilidade de voar sem ajuda de equipamentos." },
+                new Superpoderes { Id = 3, Superpoder = "Telepatia", Descricao = "Capacidade de ler ou comunicar-se com a mente de outras pessoas." },
+                new Superpoderes { Id = 4, Superpoder = "Invisibilidade", Descricao = "Capacidade de tornar o corpo invisível à visão humana." },
+                new Superpoderes { Id = 5, Superpoder = "Manipulação do Tempo", Descricao = "Habilidade de desacelerar, acelerar ou parar o tempo temporariamente." }
+    );
         }
     }
 }

@@ -1,0 +1,75 @@
+<div class="herois-container">
+  <header class="page-header">
+    <h1 class="page-title">
+      <span class="title-icon">🦸‍♂️</span>
+      Gerenciamento de Heróis
+    </h1>
+    <button class="btn btn-primary add-hero-btn" (click)="abrirModalInclusaoAlteracao()">
+      <span class="btn-icon">+</span>
+      Adicionar Herói
+    </button>
+  </header>
+
+  <div class="content-wrapper">
+    <div class="herois-stats">
+      <div class="stat-card">
+        <span class="stat-number">{{ herois.length }}</span>
+        <span class="stat-label">Heróis Cadastrados</span>
+      </div>
+    </div>
+
+    <div class="herois-section">
+      <div class="section-header">
+        <h2 class="section-title">Lista de Heróis</h2>
+      </div>
+
+      <div class="loading-spinner" *ngIf="loading">
+        <div class="spinner"></div>
+        <p>Carregando heróis...</p>
+      </div>
+
+      <div class="herois-grid" *ngIf="!loading && herois.length > 0">
+        <div class="heroi-card" *ngFor="let heroi of herois; trackBy: trackHeroiId">
+          <div class="heroi-avatar">
+            <span class="avatar-text">{{ obterIniciais(heroi.nomeHeroi) }}</span>
+          </div>
+
+          <div class="heroi-info">
+            <h3 class="nome-heroi">{{ heroi.nomeHeroi }}</h3>
+            <p class="heroi-nome-real">{{ heroi.nome }}</p>
+            <div class="heroi-poderes">
+              <span class="poder-badge" *ngFor="let poder of heroi.superpoderes.slice(0, 2)">
+                {{ poder.superpoder }}
+              </span>
+              <span class="poder-mais" *ngIf="heroi.superpoderes.length > 2">
+                +{{ heroi.superpoderes.length - 2 }}
+              </span>
+            </div>
+          </div>
+
+          <div class="acoes-heroi">
+            <button
+              class="btn btn-secondary btn-sm"
+              (click)="abrirModalInclusaoAlteracao(heroi)"
+              title="Editar herói">
+              <span class="btn-icon">✏️</span>
+              Editar
+            </button>
+            <button
+              class="btn btn-danger btn-sm"
+              (click)="deletarHeroi(heroi)"
+              title="Excluir herói">
+              <span class="btn-icon">🗑️</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="empty-state" *ngIf="!loading && herois.length === 0">
+        <div class="empty-icon">🦸‍♂️</div>
+        <h3>Nenhum herói encontrado</h3>
+        <button class="btn btn-primary" (click)="abrirModalInclusaoAlteracao()">Adicionar Primeiro Herói</button>
+      </div>
+    </div>
+  </div>
+</div>
