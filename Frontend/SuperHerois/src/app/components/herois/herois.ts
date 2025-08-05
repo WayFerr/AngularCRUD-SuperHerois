@@ -115,10 +115,12 @@ public abrirModalInclusaoAlteracao(heroi?: Heroi): void {
       componentInstance.superpoderes = this.superpoderes
     }
 
-    componentInstance.saveHero.subscribe({
-      next: (sucesso: boolean) => {
-        if (sucesso) this.carregarHerois();
-      }
-    });
+
+      modalRef.result.then((sucesso: boolean) => {
+    if (sucesso) {
+      this.carregarHerois();
+    }
+
+}).catch(() => {});
   }
 }

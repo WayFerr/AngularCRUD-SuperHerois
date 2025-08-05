@@ -182,8 +182,7 @@ export class ModalHeroiComponent implements OnInit {
 
   chamada.subscribe({
     next: () => {
-      this.saveHero.emit();
-      this.fecharModal();
+      this.activeModal.close(true);
     },
     error: (err) => {
       console.error('Erro ao salvar herói:', err);
